@@ -112,7 +112,11 @@ export class IncomeComponent implements OnInit {
   }
 
   saveForm() {
-    console.log("Form saved successfully!")
+    if(this.incomeForm.valid) {
+      const incomeData = this.incomeForm.value;
+      this.incomeForm.reset({month: this.selectedMonth});
+      this.getFilteredIncome().push(incomeData);
+    }
   }
 
   onBack() {
