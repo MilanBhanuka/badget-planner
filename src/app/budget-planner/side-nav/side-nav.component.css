@@ -7,9 +7,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 20px;
+    border-radius: 0 0 20px 20px;
     color: #f4f4f4;
-    margin: 5px;
 }
 
 .toggle-button-row{
