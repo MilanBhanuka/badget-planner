@@ -1,18 +1,19 @@
+
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule ,FormBuilder,Validators} from '@angular/forms';
 import { Router } from '@angular/router';
+import { SideNavComponent } from '../side-nav/side-nav.component';
 
 @Component({
-  selector: 'app-todo',
+  selector: 'app-history',
   standalone: true,
-  imports: [ReactiveFormsModule,CommonModule],
-  templateUrl: './todo.component.html',
-  styleUrl: './todo.component.css'
+  imports: [ReactiveFormsModule,CommonModule,SideNavComponent],
+  templateUrl: './history.component.html',
+  styleUrl: './history.component.css'
 })
-
-export class TodoComponent implements OnInit {
-  todoForm:any;
+export class HistoryComponent implements OnInit {
+  expenseForm:any;
   selectedMonth:any;
 
   expenses:{month:string,expenseAmount:number}[]=[
@@ -21,17 +22,17 @@ export class TodoComponent implements OnInit {
     {month:'Marcch',expenseAmount:500}
   ];
 
-  januaryExpense:any[] = [
+  januaryExpense:any = [
     {expenseType:'Rent',expenseAmount:2000},
     {expenseType:'Groceris',expenseAmount:1000}
   ];
 
-  februaryExpense:any[] = [
+  februaryExpense:any = [
     {expenseType:'Rent',expenseAmount:2000},
     {expenseType:'Utility',expenseAmount:800}
   ];
 
-  marchExpense:any[] = [
+  marchExpense:any = [
     {expenseType:'Rent',expenseAmount:2000},
     {expenseType:'Groceris',expenseAmount:1000}
   ];
@@ -43,8 +44,8 @@ export class TodoComponent implements OnInit {
     this.selectedMonth = currentDate.toLocaleString('default', { month: 'long' });
   }
 
-  ngOnInit(): void {
-    this.todoForm = this.fb.group({
+  ngOnInit() {
+    this.expenseForm = this.fb.group({
       month: ['', Validators.required],
       expenseType:['', Validators.required],
       expenseAmount:['', Validators.required],
@@ -59,13 +60,13 @@ export class TodoComponent implements OnInit {
 
   calculateTotalExpense(month:string): number {
     let totalExpene = 0;
-    for(const expense of this.gettodoForMonth(month)) {
+    for(const expense of this.getExpenseForMonth(month)) {
       totalExpene += expense.expenseAmount;
     }
     return totalExpene;
   }
 
-  gettodoForMonth(month:string): any[] {
+  getExpenseForMonth(month:string): any[] {
     switch(month) {
       case 'January':
         return this.januaryExpense;
@@ -97,8 +98,8 @@ export class TodoComponent implements OnInit {
   }
 
   onSubmitExpense() {
-    if(this.todoForm.valid) {
-      const newIncome = this.todoForm.value;
+    if(this.expenseForm.valid) {
+      const newIncome = this.expenseForm.value;
       switch(this.selectedMonth) {
         case 'January':
           this.januaryExpense.push(newIncome);
@@ -112,25 +113,16 @@ export class TodoComponent implements OnInit {
         default:
           break;
       }
-      this.todoForm.reset();
-      this.todoForm.patchValue({month: '', source: '', amount: '', investment: ''});
+      this.expenseForm.reset();
+      this.expenseForm.patchValue({month: '', source: '', amount: '', investment: ''});
     }
   }
 
-  onSave(){
-    if(this.todoForm.valid) {
-      const todoData = this.todoForm.value;
-      this.todoForm.reset({month: this.selectedMonth});
-      this.getFilteredExpense();
-    }
-
+  saveForm() {
+    console.log("Form saved successfully!")
   }
 
   onBack() {
     this.router.navigate(['/budget-planner/dashboard']);
-  }
-
-  toggleSelected(todoTransaction: any) {
-    todoTransaction.selected = !todoTransaction.selected;
   }
 }

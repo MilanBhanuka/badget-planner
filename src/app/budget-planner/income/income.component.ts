@@ -108,6 +108,7 @@ export class IncomeComponent implements OnInit {
       }
       this.incomeForm.reset();
       this.incomeForm.patchValue({month: '', source: '', amount: '', investment: ''});
+      
     }
   }
 

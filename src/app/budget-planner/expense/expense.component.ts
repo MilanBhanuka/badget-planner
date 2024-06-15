@@ -60,7 +60,7 @@ export class ExpenseComponent implements OnInit {
   calculateTotalExpense(month:string): number {
     let totalExpene = 0;
     for(const expense of this.getExpenseForMonth(month)) {
-      totalExpene += expense.amount;
+      totalExpene += expense.expenseAmount;
     }
     return totalExpene;
   }
